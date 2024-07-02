@@ -61,6 +61,7 @@ users.delete('/delete', (req, res) => {
     const { username, password } = req.body; // Assuming you're sending 'username' and 'password' in the query parameters
     // Example query to check if the provided username and password match a user in the database
     const sql = 'SELECT username FROM users u WHERE u.username = ? AND u.password = PASSWORD(?);';
+    // const sql = `SELECT username FROM users u WHERE u.username = '${username}' AND u.password = PASSWORD(${password});`;
     db.query(sql, [username, password], (err, result) => {
         try{
             if (err) {
@@ -72,7 +73,7 @@ users.delete('/delete', (req, res) => {
               if (result.length === 0) {
                 res.status(401).send('Invalid username or password');
               } else {
-                res.status(200).send('Login successful');
+                res.status(200).json({message: 'Login successful', data: result});
               }
         }catch(error){
             res.status(500).send('Server error!');
