@@ -5,21 +5,33 @@ const ojtnames = express.Router();
 const db = require('../database/db'); // Import the db.js file
 
 // Define route to fetch data from MySQL
-users.get('/get', (req, res) => {
-  // Example query to fetch users from a 'users' table
-  const sql = 'SELECT u.username FROM users AS u;';
+// users.get('/get', (req, res) => {
+//   // Example query to fetch users from a 'users' table
+//   const sql = 'SELECT u.username FROM users AS u;';
 
-  db.query(sql, (err, result) => {
-    if (err) {
-      throw err;
-    }
-    res.json(result);
+//   db.query(sql, (err, result) => {
+//     if (err) {
+//       throw err;
+//     }
+//     res.json(result);
+//   });
+// });
+
+users.get('/get', (req, res) => {
+    // Example query to fetch users using the stored procedure
+    const sql = 'CALL sp_users_get()';
+  
+    db.query(sql, (err, result) => {
+      if (err) {
+        throw err;
+      }
+      res.json(result[0]); // Assuming the result is returned as an array of objects
+    });
   });
-});
 
 users.post('/insert', (req, res) => {
     const { username, password } = req.body; 
-    const sql = 'INSERT INTO users (username, `password`) VALUES (?, PASSWORD(?));';
+    const sql = 'CALL sp_users_insert(?, ?);';
     db.query(sql, [username, password], (err, result) => {
       if (err) {
         console.error(err);
