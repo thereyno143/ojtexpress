@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const OJTNamesRouter = require('./routes/ojt_names.routes'); // Import the users route
+const UsersRouter = require('./routes/users.routes'); // Import the users route
 
 // Create an Express application
 const app = express();
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/ojtnames', OJTNamesRouter);
+app.use('/users', UsersRouter);
 
 // Define a route for the homepage
 app.get('/', (req, res) => {

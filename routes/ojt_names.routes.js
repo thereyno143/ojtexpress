@@ -1,26 +1,10 @@
 // Import required modules
 const express = require('express');
-const router = express.Router();
-const mysql = require('mysql');
-
-// MySQL database connection configuration
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'test'
-});
-
-// Connect to MySQL
-db.connect((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Connected to MySQL database');
-});
+const ojtnames = express.Router();
+const db = require('../database/db'); // Import the db.js file
 
 // Define route to fetch data from MySQL
-router.get('/get', (req, res) => {
+ojtnames.get('/get', (req, res) => {
   // Example query to fetch users from a 'users' table
   const sql = 'SELECT * FROM ojt_names';
 
@@ -32,7 +16,7 @@ router.get('/get', (req, res) => {
   });
 });
 
-router.post('/save', (req, res) => {
+ojtnames.post('/save', (req, res) => {
     const { name } = req.body; // Assuming you're sending 'name' in the request body
   
     // Example INSERT query to add a new record to 'ojt_names' table
@@ -47,4 +31,4 @@ router.post('/save', (req, res) => {
     });
   });
 
-module.exports = router;
+module.exports = ojtnames;
