@@ -57,4 +57,27 @@ users.delete('/delete', (req, res) => {
     });
   });
 
+  users.get('/login', (req, res) => {
+    const { username, password } = req.body; // Assuming you're sending 'username' and 'password' in the query parameters
+    // Example query to check if the provided username and password match a user in the database
+    const sql = 'SELECT username FROM users u WHERE u.username = ? AND u.password = PASSWORD(?);';
+    db.query(sql, [username, password], (err, result) => {
+        try{
+            if (err) {
+                console.error(err);
+                res.status(500).send('Error logging in');
+                return;
+              }
+          
+              if (result.length === 0) {
+                res.status(401).send('Invalid username or password');
+              } else {
+                res.status(200).send('Login successful');
+              }
+        }catch(error){
+            res.status(500).send('Server error!');
+        }
+    });
+  });
+
 module.exports = users;
