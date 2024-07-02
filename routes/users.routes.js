@@ -30,7 +30,7 @@ users.post('/insert', (req, res) => {
     });
   });
 
-  users.post('/update', (req, res) => {
+users.post('/update', (req, res) => {
     const { username, id } = req.body; 
     const sql = 'UPDATE users u SET u.username = ? WHERE id = ?;';
     db.query(sql, [username, id], (err, result) => {
@@ -43,7 +43,7 @@ users.post('/insert', (req, res) => {
     });
   });
 
-  users.delete('/delete', (req, res) => {
+users.delete('/delete', (req, res) => {
     const userId = req.query.id; // Access the ID from the query parameters
     // Example DELETE query to remove a record from 'ojt_names' table based on user ID
     const sql = 'DELETE FROM users WHERE id = ?;';
