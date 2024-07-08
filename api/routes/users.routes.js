@@ -69,13 +69,14 @@ users.delete('/delete', (req, res) => {
     });
   });
 
-  users.get('/login', (req, res) => {
+  users.post('/login', (req, res) => {
     const { username, password } = req.body; // Assuming you're sending 'username' and 'password' in the query parameters
     // Example query to check if the provided username and password match a user in the database
     const sql = 'SELECT username FROM users u WHERE u.username = ? AND u.password = PASSWORD(?);';
     // const sql = `SELECT username FROM users u WHERE u.username = '${username}' AND u.password = PASSWORD(${password});`;
     db.query(sql, [username, password], (err, result) => {
         try{
+          // console.log(username, password);
             if (err) {
                 console.error(err);
                 res.status(500).send('Error logging in');
